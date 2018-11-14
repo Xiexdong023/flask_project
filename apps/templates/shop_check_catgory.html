@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    店铺菜品分类
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">吃了吗商家管理系统</h1>
+    {% if current_user.is_authenticated %}
+        <div class="col-xs-10 col-xs-offset-1">
+            <table class="table table-hover">
+                <caption>
+                    <span class="text-danger">{{ shop.shop_name }}</span>的菜单分类
+                </caption>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>分类名称</th>
+                    <th>菜品信息</th>
+                    <th>平均价格</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if shop.categories %}
+                    {% for cate in shop.categories %}
+                        <tr>
+                            <th>{{ loop.index }}</th>
+                            <th><a href="#">{{ cate.name }}</a></th>
+                            <th>
+                                <a href="">添加</a>
+                                <a href="">0</a></th>
+                            <th><span>¥</span>0</th>
+
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <a href="{{ url_for('cms.add_catgory',pub_id=shop.pub_id) }}">还没有菜品分类,赶紧去添加一个吧</a>
+                    </tbody>
+                    </table>
+                    </div>
+                {% endif %}
+    {% else %}
+        <h1>首页 还未登录,请先登录</h1>
+    {% endif %}
+{% endblock %}

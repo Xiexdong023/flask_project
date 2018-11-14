@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    首页
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">吃了吗商家管理系统</h1>
+    {% if current_user.is_authenticated %}
+        <div class="col-xs-10 col-xs-offset-1">
+            <table class="table table-hover">
+                <caption>
+                    <span class="text-danger">{{ current_user.username }}</span>的店铺
+                </caption>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>店铺</th>
+                    <th>店铺评分</th>
+                    <th>起送价格</th>
+                    <th>配送费</th>
+                    <th>菜品分类</th>
+                    <th>菜品信息</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if current_user.shop %}
+                    {% for shop in current_user.shop %}
+                        <tr>
+                            <th>{{ loop.index }}</th>
+                            <th><a href="{{ url_for('cms.update_shop',pub_id=shop.pub_id) }}">{{ shop.shop_name }}</a>
+                            </th>
+                            <th>{{ shop.shop_rating }}</th>
+                            <th>{{ shop.start_send }}</th>
+                            <th>{{ shop.send_cost }}</th>
+                            <th>
+                                <a href="{{ url_for('cms.add_catgory',pub_id=shop.pub_id) }}">添加</a>
+                                <a href="{{ url_for('cms.check_catgory',pub_id=shop.pub_id) }}">查看</a></th>
+                            <th>
+                                {% if shop.categories %}
+                                    <a href="{{ url_for('cms.add_goods',pub_id=shop.pub_id) }}">添加</a>
+                                    <a href="{{ url_for('cms.show_goods',pub_id=shop.pub_id) }}">查看</a>
+                                {% else %}
+                                    <a  href="javascript:;" style="color: grey">添加</a>
+                                    <a  href="javascript:;" style="color: grey">查看</a>
+                                {% endif %}
+                            </th>
+
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <a href="{{ url_for('cms.add_shop') }}">还没有店铺,赶紧去添加一个吧</a>
+                    </tbody>
+                    </table>
+                    </div>
+                {% endif %}
+    {% else %}
+        <h1>首页 还未登录,请先登录</h1>
+    {% endif %}
+{% endblock %}

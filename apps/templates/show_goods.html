@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ flags }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">吃了吗商家管理系统</h1>
+    {% if current_user.is_authenticated %}
+        <div class="col-xs-10 col-xs-offset-1 panel panel-default panel-heading">
+            <table class="table table-hover">
+                <caption>
+                    <span class="text-danger">{{ shop.shop_name }}</span>的菜单清单
+                </caption>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>菜品名称</th>
+                    <th>菜品价格</th>
+                    <th>菜品销量</th>
+                    <th>菜品评分</th>
+                    <th>菜品操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if shop.categories %}
+                    {% for cate in shop.categories %}
+                        <tr class="well well-sm">
+                            <th><span style="color:#d29091;">{{ cate.name }}</span></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        {% for good in cate.goods %}
+                            <tr>
+                                <th>{{ loop.index }}</th>
+                                <th><a href="{{ url_for('cms.update_goods',pub_id=good.cate.shop_pid,good_id=good.id) }}">{{ good.goods_name }}</a></th>
+                                <th>{{ good.goods_price }}</th>
+                                <th>{{ good.goods_sales }}</th>
+                                <th>{{ good.goods_rating }}</th>
+                                <th><a href="{{ url_for('cms.update_goods',pub_id=good.cate.shop_pid,good_id=good.id) }}">编辑</a></th>
+
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    <a href="{{ url_for('cms.add_goods',pub_id=shop.pub_id) }}">还没有菜品,赶紧去添加一个吧</a>
+                    </tbody>
+                    </table>
+                    </div>
+                {% endif %}
+    {% else %}
+        <h1>首页 还未登录,请先登录</h1>
+    {% endif %}
+{% endblock %}

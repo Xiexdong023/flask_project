@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ flags }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-xs-6 col-xs-offset-3">
+            <div class="page-header">
+                <h3 class="text-center">{{ flags }}</h3>
+            </div>
+            <form class="form-horizontal" method="post" action="" novalidate>
+
+                {% for item in form %}
+                    <div class="form-group">
+                        {{ item.label(class_="col-sm-3 control-label") }}
+                        <div class="col-sm-9">
+                            {% if item != shop_pid %}
+                            {{ item }}
+                            <span class="text-danger">{{ item.errors[0] }}</span>
+                             {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success">{{ flags }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
